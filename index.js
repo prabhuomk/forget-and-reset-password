@@ -19,7 +19,7 @@ export async function createConnection(){
     const client= new MongoClient(MONGO_URL);
     try{
         await client.connect();
-        console.log("sucessfully connected");
+        console.log("Server got sucessfully connected");
         return client;
     }
     catch(err){
