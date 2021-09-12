@@ -19,7 +19,7 @@ export async function createConnection(){
     const client= new MongoClient(MONGO_URL);
     try{
         await client.connect();
-        console.log("Server got sucessfully connected");
+        console.log("Server got sucessfully connected for forgetpassword");
         return client;
     }
     catch(err){
