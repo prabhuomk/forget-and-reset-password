@@ -66,7 +66,8 @@ router
     }else{
 
         const token=jwt.sign({id:user._id},process.env.REKEY);
-        const store= await inserttoken(client,{tokenid:user._id,token:token});
+        const expiryDate= Date.now()+3600000;
+        const store= await inserttoken(client,{tokenid:user._id,token:token,expiryDate:expiryDate});
         const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token}`;
        
       const mail=  await sendEmail(user.email_id, "Password reset", link);
@@ -88,15 +89,20 @@ router
     if(!tokens){
         response.send({message:"invalid token"})
     }else{
+        if(tokens.expiryDate < Date.now()){
         const hashedPassword=await genPassword(password);
         const updateuserpassword = await updateUser(client,id,hashedPassword);
         const deletetokens= await deletetoken(client,id);
         response.send({message:"password updated and token got deleted"})
 
     } 
+    else{
+        response.send({message:"link got expired"})
+    }
+
 } 
-    
-);
+  
+});
 
 
 
