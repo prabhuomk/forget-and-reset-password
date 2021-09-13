@@ -89,7 +89,7 @@ router
     if(!tokens){
         response.send({message:"invalid token"})
     }else{
-        if(tokens.expiryDate < Date.now()){
+        if( Date.now()< tokens.expiryDate ){
         const hashedPassword=await genPassword(password);
         const updateuserpassword = await updateUser(client,id,hashedPassword);
         const deletetokens= await deletetoken(client,id);
